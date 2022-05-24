@@ -313,10 +313,6 @@ NPM;
 clean;
 AvahiDeamon;
 
-(ls ${HOME}/.ssh/id_rsa.pub && echo "Clé SSH publique :" && cat ${HOME}/.ssh/id_rsa.pub) || echo "Aucune clée SSH générée.";
-
 echo "---------------------";
 echo "Installation terminée";
 echo "---------------------";
-
-Reboot;
