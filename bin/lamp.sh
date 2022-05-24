@@ -110,7 +110,26 @@ Samba () {
 
 	sudo apt install samba -y
 
-			SambaConfiguration;
+	echo "-------------------------------------------------------------";
+	echo "Ajout de la configuration du partage dans /etc/samba/smb.conf";
+	echo "-------------------------------------------------------------";
+
+	echo "[dev]" | sudo tee -a /etc/samba/smb.conf;
+	echo "   comment = Sharing Dev Folder" | sudo tee -a /etc/samba/smb.conf;
+	echo "   path = /var/www" | sudo tee -a /etc/samba/smb.conf;
+	echo "   read only = no" | sudo tee -a /etc/samba/smb.conf;
+	echo "   browseable = yes" | sudo tee -a /etc/samba/smb.conf;
+
+	echo "-----------------------------------------";
+	echo "SAISISSEZ LE MOT DE PASSE DU COMPTE SAMBA";
+	echo "-----------------------------------------";
+
+	sudo smbpasswd -a ubuntu;
+	sudo service smbd restart;
+
+	echo "--------------------------------------------";
+	echo "Utilisateur ubuntu ajouté aux partages Samba";
+	echo "--------------------------------------------";
 
 }
 
@@ -123,15 +142,18 @@ phpMyAdmin () {
 			echo "--------------------------------";
 			echo "Suppresion des anciens fichiers.";
 			echo "--------------------------------";
+
 			sudo rm -rf /usr/share/phpmyadmin
 			sudo rm -rf /var/lib/phpmyadmin/tmp
 
 			echo "------------------------------------------------------------------------";
 			echo "Récupération de la denière version de PMA, tar du dossier & suppression.";
 			echo "------------------------------------------------------------------------";
+
 			sudo wget https://files.phpmyadmin.net/phpMyAdmin/5.1.3/phpMyAdmin-5.1.3-english.tar.gz
 			sudo tar -xf phpMyAdmin-5.1.3-english.tar.gz
 			rm -rf phpMyAdmin-5.1.3-english.tar.gz
+
 			echo "---------------------------------------------------------------------------------";
 			echo "Récupération de la denière version de PMA, tar du dossier & suppression terminés.";
 			echo "---------------------------------------------------------------------------------";
@@ -139,23 +161,28 @@ phpMyAdmin () {
 			echo "----------------------------------------------------------------------";
 			echo "Création & déplacement de tous les fichiers dans /usr/share/phpmyadmin";
 			echo "----------------------------------------------------------------------";
+
 			sudo mkdir /usr/share/phpmyadmin
 			sudo mv phpMyAdmin-5.1.3-english/* /usr/share/phpmyadmin/
+			
 			echo "----------------------------------------------------------------";
 			echo "Création des dossiers et changement des droits PMA dans /var/lib";
 			echo "----------------------------------------------------------------";
+
 			sudo mkdir -p /var/lib/phpmyadmin/tmp
 			sudo chown -R www-data:www-data /var/lib/phpmyadmin
+
 			echo "----------------------------------";
 			echo "Création du fichier config.inc.php";
 			echo "----------------------------------";
+
 			sudo cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
+
 			echo "--------------------------------";
 			echo "Suppression de l'ancien dossier et lancement de la configuration.";
 			echo "--------------------------------";
-			sudo rm -rf phpMyAdmin-5.1.3-english
 
-			phpMyAdminConfiguration;
+			sudo rm -rf phpMyAdmin-5.1.3-english
 
 			echo "-----------------------------------------";
 			echo "Installation de phpMyAdmin 5.1.3 terminée";
@@ -188,27 +215,6 @@ AvahiDeamon () {
     echo "----------------------------------------------------------------";
 
 	sudo apt-get install avahi-daemon -y
-
-	echo "-------------------------------------------------------------";
-	echo "Ajout de la configuration du partage dans /etc/samba/smb.conf";
-	echo "-------------------------------------------------------------";
-
-	echo "[dev]" | sudo tee -a /etc/samba/smb.conf;
-	echo "   comment = Sharing Dev Folder" | sudo tee -a /etc/samba/smb.conf;
-	echo "   path = /var/www" | sudo tee -a /etc/samba/smb.conf;
-	echo "   read only = no" | sudo tee -a /etc/samba/smb.conf;
-	echo "   browseable = yes" | sudo tee -a /etc/samba/smb.conf;
-
-	echo "-----------------------------------------";
-	echo "SAISISSEZ LE MOT DE PASSE DU COMPTE SAMBA";
-	echo "-----------------------------------------";
-
-	sudo smbpasswd -a ubuntu;
-	sudo service smbd restart;
-
-	echo "--------------------------------------------";
-	echo "Utilisateur ubuntu ajouté aux partages Samba";
-	echo "--------------------------------------------";
 
 	echo "---------------------";
     echo "Avahi-Deamon installé"; 

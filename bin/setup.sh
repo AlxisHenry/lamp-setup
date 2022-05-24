@@ -13,6 +13,9 @@ sudo mv /home/ubuntu/linux-professional-environment/etc/apache2/sites-available/
 sudo a2ensite main.conf
 sudo a2enconf phpmyadmin.conf
 
+# PhpMyAdmin
+sudo mv /home/ubuntu/linux-professional-environment/etc/phpmyadmin/config.inc.php /usr/share/phpmyadmin/config.inc.php
+
 # Restart Apache
 sudo systemctl restart apache2
 
