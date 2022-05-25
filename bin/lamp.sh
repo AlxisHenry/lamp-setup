@@ -57,10 +57,10 @@ MariaDB () {
 	sudo apt install mariadb-server -y
 	sudo apt install mariadb-client-core-10.3 -y
 
-	sudo mariadb -e "DROP USER IF EXISTS 'alexis'@localhost;";
-	sudo mariadb -e "CREATE USER 'GLPI'@'%' IDENTIFIED BY 'GLPI_USER123*';";
-	sudo mariadb -e "CREATE DATABASE IF NOT EXISTS GLPI";
-	sudo mariadb -e "GRANT ALL PRIVILEGES ON GLPI.* TO 'alexis'@'localhost';";
+	sudo mariadb -e "DROP USER IF EXISTS 'alexis'@'%';";
+	sudo mariadb -e "CREATE USER 'alexis'@'%' IDENTIFIED BY 'alexis';";
+	sudo mariadb -e "CREATE DATABASE IF NOT EXISTS main";
+	sudo mariadb -e "GRANT ALL PRIVILEGES ON main.* TO 'alexis'@'%';";
 	sudo mariadb -e "FLUSH PRIVILEGES;";
 
 	echo "---------------------------------";
