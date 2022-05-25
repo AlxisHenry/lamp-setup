@@ -1,6 +1,5 @@
-GNU nano 4.8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  config.inc.php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <?php
-/**
- * phpMyAdmin sample configuration, you can use it as base for
+<?php /*** phpMyAdmin sample configuration, you can use it as base for
+ * 
  * manual configuration. For easier setup you can use setup/
  *
  * All directives are explained in documentation in the doc/ folder
