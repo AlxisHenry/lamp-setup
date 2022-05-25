@@ -16,6 +16,9 @@ sudo a2enconf phpmyadmin.conf
 # PhpMyAdmin
 sudo mv /home/ubuntu/linux-professional-environment/etc/phpmyadmin/config.inc.php /usr/share/phpmyadmin/config.inc.php
 
+# Rigths
+sudo chown -R www-data:www-data /usr/share/phpmyadmin
+
 # Restart Apache
 sudo systemctl restart apache2
 
