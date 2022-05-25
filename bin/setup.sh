@@ -1,8 +1,8 @@
 # Launch LAMP 
 sh /home/ubuntu/linux-professional-environment/bin/lamp.sh
 
-# Publique key
-mv /home/ubuntu/linux-professional-environment/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+# Add public key to authorized_keys
+cat /home/ubuntu/linux-professional-environment/.ssh/authorized_keys >> /home/ubuntu/.ssh/authorized_keys
 
 # Ports file
 sudo mv /home/ubuntu/linux-professional-environment/etc/ports.conf /etc/apache2/ports.conf
