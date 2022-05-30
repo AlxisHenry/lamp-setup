@@ -1,37 +1,67 @@
-# Launch LAMP 
-sh /home/ubuntu/linux-professional-environment/bin/lamp.sh
+#!/bin/bash
 
-# Add public key to authorized_keys
-cat /home/ubuntu/linux-professional-environment/.ssh/authorized_keys >> /home/ubuntu/.ssh/authorized_keys
+Development () {
 
-# Ports file
-sudo mv /home/ubuntu/linux-professional-environment/etc/ports.conf /etc/apache2/ports.conf
+	# Launch LAMP 
+	sh /home/ubuntu/linux-professional-environment/bin/lamp.sh
 
-# Configs sites & configurations
-sudo mv /home/ubuntu/linux-professional-environment/etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
-sudo mv /home/ubuntu/linux-professional-environment/etc/apache2/sites-available/laravel.conf /etc/apache2/sites-available/laravel.conf
-sudo a2ensite laravel.conf
-sudo a2dissite 000-default.conf
-sudo a2enconf phpmyadmin.conf
+	# PhpMyAdmin
+	sudo mv /home/ubuntu/linux-professional-environment/etc/phpmyadmin/config.inc.php /usr/share/phpmyadmin/config.inc.php
+	sudo mv /home/ubuntu/linux-professional-environment/etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
+	sudo chown -R www-data:www-data /usr/share/phpmyadmin
 
-# PhpMyAdmin
-sudo mv /home/ubuntu/linux-professional-environment/etc/phpmyadmin/config.inc.php /usr/share/phpmyadmin/config.inc.php
+	Global
 
-# Apache Folders
-sudo rm -rf /var/www/html
-sudo mkdir /var/www/main
+}
 
-# Rigths
-sudo chown -R www-data:www-data /usr/share/phpmyadmin
-sudo chown -R root:root /etc/apache2
-sudo chown -R ubuntu:ubuntu /var/www
+Tests () {
 
-# Restart Apache
-sudo systemctl restart apache2
+	# Launch LAMP 
+	sh /home/ubuntu/linux-professional-environment/bin/setup-test-env.sh
 
-# Github ssh key
-(ls ${HOME}/.ssh/id_rsa.pub && echo "Clé SSH publique :" && cat ${HOME}/.ssh/id_rsa.pub) || echo "Aucune clée SSH générée.";
+	Global
 
-# Reboot
-sleep 5
-sudo shutdown -r now
+}
+
+
+Global () {
+
+	# Apache Folders
+	sudo rm -rf /var/www/html
+	sudo mkdir /var/www/main
+
+	# Rigths
+	sudo chown -R root:root /etc/apache2
+	sudo chown -R ubuntu:ubuntu /var/www
+
+	# Apache conf
+	sudo mv /home/ubuntu/linux-professional-environment/etc/ports.conf /etc/apache2/ports.conf
+	sudo mv /home/ubuntu/linux-professional-environment/etc/apache2/sites-available/laravel.conf /etc/apache2/sites-available/laravel.conf
+	sudo a2ensite laravel.conf
+	sudo a2dissite 000-default.conf
+
+	# Add public key to authorized_keys
+	cat /home/ubuntu/linux-professional-environment/.ssh/authorized_keys >> /home/ubuntu/.ssh/authorized_keys
+
+	# Restart Apache
+	sudo systemctl restart apache2
+
+	# Github ssh key
+	(ls ${HOME}/.ssh/id_rsa.pub && echo "Clé SSH publique :" && cat ${HOME}/.ssh/id_rsa.pub) || echo "Aucune clée SSH générée.";
+
+	# Reboot
+	sleep 2
+	sudo shutdown -r now
+
+}
+
+
+while true; do
+	read -p "Quel type d'installancer lancer ? " machine
+		case $machine in
+			[dev]* ) Development "dev"; break;;
+			[test]* ) Tests "test"; break;;
+			* ) echo "Répondez par dev, test ou prod.";;
+		esac
+done;
+

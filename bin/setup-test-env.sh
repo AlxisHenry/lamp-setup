@@ -57,10 +57,10 @@ MariaDB () {
 	sudo apt install mariadb-server -y
 	sudo apt install mariadb-client-core-10.3 -y
 
-	sudo mariadb -e "DROP USER IF EXISTS 'alexis'@localhost;";
-	sudo mariadb -e "CREATE USER 'GLPI'@'%' IDENTIFIED BY 'GLPI_USER123*';";
-	sudo mariadb -e "CREATE DATABASE IF NOT EXISTS GLPI";
-	sudo mariadb -e "GRANT ALL PRIVILEGES ON GLPI.* TO 'alexis'@'localhost';";
+	sudo mariadb -e "DROP USER IF EXISTS 'alexis'@'%';";
+	sudo mariadb -e "CREATE USER 'alexis'@'%' IDENTIFIED BY 'alexis';";
+	sudo mariadb -e "CREATE DATABASE IF NOT EXISTS main";
+	sudo mariadb -e "GRANT ALL PRIVILEGES ON main.* TO 'alexis'@'%';";
 	sudo mariadb -e "FLUSH PRIVILEGES;";
 
 	echo "---------------------------------";
@@ -102,67 +102,6 @@ xDebug () {
 
 }
 
-Samba () {
-
-	echo "---------------------";
-	echo "Installation de Samba";
-	echo "---------------------";
-
-	sudo apt install samba -y
-
-			SambaConfiguration;
-
-}
-
-phpMyAdmin () {
-
-			echo "--------------------------------";
-			echo "Installation de phpMyAdmin 5.1.3";
-			echo "--------------------------------";
-
-			echo "--------------------------------";
-			echo "Suppresion des anciens fichiers.";
-			echo "--------------------------------";
-			sudo rm -rf /usr/share/phpmyadmin
-			sudo rm -rf /var/lib/phpmyadmin/tmp
-
-			echo "------------------------------------------------------------------------";
-			echo "Récupération de la denière version de PMA, tar du dossier & suppression.";
-			echo "------------------------------------------------------------------------";
-			sudo wget https://files.phpmyadmin.net/phpMyAdmin/5.1.3/phpMyAdmin-5.1.3-english.tar.gz
-			sudo tar -xf phpMyAdmin-5.1.3-english.tar.gz
-			rm -rf phpMyAdmin-5.1.3-english.tar.gz
-			echo "---------------------------------------------------------------------------------";
-			echo "Récupération de la denière version de PMA, tar du dossier & suppression terminés.";
-			echo "---------------------------------------------------------------------------------";
-
-			echo "----------------------------------------------------------------------";
-			echo "Création & déplacement de tous les fichiers dans /usr/share/phpmyadmin";
-			echo "----------------------------------------------------------------------";
-			sudo mkdir /usr/share/phpmyadmin
-			sudo mv phpMyAdmin-5.1.3-english/* /usr/share/phpmyadmin/
-			echo "----------------------------------------------------------------";
-			echo "Création des dossiers et changement des droits PMA dans /var/lib";
-			echo "----------------------------------------------------------------";
-			sudo mkdir -p /var/lib/phpmyadmin/tmp
-			sudo chown -R www-data:www-data /var/lib/phpmyadmin
-			echo "----------------------------------";
-			echo "Création du fichier config.inc.php";
-			echo "----------------------------------";
-			sudo cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
-			echo "--------------------------------";
-			echo "Suppression de l'ancien dossier et lancement de la configuration.";
-			echo "--------------------------------";
-			sudo rm -rf phpMyAdmin-5.1.3-english
-
-			phpMyAdminConfiguration;
-
-			echo "-----------------------------------------";
-			echo "Installation de phpMyAdmin 5.1.3 terminée";
-			echo "-----------------------------------------";
-
-}
-
 UpdateServer () {
 
 			echo "----------------";
@@ -188,27 +127,6 @@ AvahiDeamon () {
     echo "----------------------------------------------------------------";
 
 	sudo apt-get install avahi-daemon -y
-
-	echo "-------------------------------------------------------------";
-	echo "Ajout de la configuration du partage dans /etc/samba/smb.conf";
-	echo "-------------------------------------------------------------";
-
-	echo "[dev]" | sudo tee -a /etc/samba/smb.conf;
-	echo "   comment = Sharing Dev Folder" | sudo tee -a /etc/samba/smb.conf;
-	echo "   path = /var/www" | sudo tee -a /etc/samba/smb.conf;
-	echo "   read only = no" | sudo tee -a /etc/samba/smb.conf;
-	echo "   browseable = yes" | sudo tee -a /etc/samba/smb.conf;
-
-	echo "-----------------------------------------";
-	echo "SAISISSEZ LE MOT DE PASSE DU COMPTE SAMBA";
-	echo "-----------------------------------------";
-
-	sudo smbpasswd -a ubuntu;
-	sudo service smbd restart;
-
-	echo "--------------------------------------------";
-	echo "Utilisateur ubuntu ajouté aux partages Samba";
-	echo "--------------------------------------------";
 
 	echo "---------------------";
     echo "Avahi-Deamon installé"; 
@@ -259,9 +177,6 @@ GithubSshKey () {
 	echo "Configuration de Github";
 	echo "-----------------------";
 
-	git config --global user.name "AlxisHenry";
-	git config --global user.email "alexis.henry150357@gmail.com";
-
 }
 
 NodeJS () {
@@ -292,31 +207,25 @@ NPM () {
 
 }
 
-echo "-----------------------------------------------------------";
-echo "                                                           ";
-echo "Installation & Configuration d'une Machine de développement";
-echo "                                                           ";
-echo "-----------------------------------------------------------";
+echo "--------------------------------------------------";
+echo "                                                  ";
+echo "Installation & Configuration d'une Machine de test";
+echo "                                                  ";
+echo "--------------------------------------------------";
 
 UpdateServer;
 Apache;
 PHP;
 UpdateServer;
 MariaDB;
-Samba;
 Composer;
 xDebug;
-phpMyAdmin;
 GithubSshKey;
 NodeJS;
 NPM;
 clean;
 AvahiDeamon;
 
-(ls ${HOME}/.ssh/id_rsa.pub && echo "Clé SSH publique :" && cat ${HOME}/.ssh/id_rsa.pub) || echo "Aucune clée SSH générée.";
-
 echo "---------------------";
 echo "Installation terminée";
 echo "---------------------";
-
-Reboot;
