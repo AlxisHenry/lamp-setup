@@ -26,6 +26,11 @@ Tests () {
 
 Global () {
 
+	# Aliases & scripts
+	sudo mv /home/ubuntu/linux-professional-environment/home/ubuntu/.bashrc /home/ubuntu/.bashrc
+	sudo mv /home/ubuntu/linux-professional-environment/bin/test-environment-scripts/up.sh /home/ubuntu/up.sh
+	sudo mv /home/ubuntu/linux-professional-environment/bin/test-environment-scripts/prod.sh /home/ubuntu/prod.sh
+
 	# Apache Folders
 	sudo rm -rf /var/www/html
 	sudo mkdir /var/www/main
