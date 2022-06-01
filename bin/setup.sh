@@ -25,10 +25,11 @@ Tests () {
 
 
 Global () {
-
+	# todo : Complete exclude list 
 	# Aliases & scripts
 	sudo mv /home/ubuntu/linux-professional-environment/home/ubuntu/.bashrc /home/ubuntu/.bashrc
 	sudo mv /home/ubuntu/linux-professional-environment/bin/test-environment-scripts/up.sh /home/ubuntu/up.sh
+	sudo mv /home/ubuntu/linux-professional-environment/bin/test-environment-scripts/exclude_list /home/ubuntu/exclude_list
 	sudo mv /home/ubuntu/linux-professional-environment/bin/test-environment-scripts/prod.sh /home/ubuntu/prod.sh
 
 	# Apache Folders
