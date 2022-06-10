@@ -10,10 +10,15 @@ UpdateProject () {
 	sudo chown -R ubuntu:ubuntu /var/www/main
 	git pull
 
+	echo "Settings .env"
+	rm /var/www/main/.env
+	cp /var/www/main/.env.example  /var/www/main/.env
+
 	echo 'Paramétrage de Laravel'
 	composer install
 	npm --prefix /var/www/main install
 	npm --prefix /var/www/main/ run prod
+	php artisan key:generate
 	php artisan cache:clear
 	php artisan optimize
 	php artisan
