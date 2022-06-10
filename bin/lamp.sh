@@ -60,7 +60,7 @@ MariaDB () {
 	sudo mariadb -e "DROP USER IF EXISTS 'alexis'@'%';";
 	sudo mariadb -e "CREATE USER 'alexis'@'%' IDENTIFIED BY 'alexis';";
 	sudo mariadb -e "CREATE DATABASE IF NOT EXISTS main";
-	sudo mariadb -e "GRANT ALL PRIVILEGES ON main.* TO 'alexis'@'%';";
+	sudo mariadb -e "GRANT ALL PRIVILEGES ON *.* TO 'alexis'@'%';";
 	sudo mariadb -e "FLUSH PRIVILEGES;";
 
 	echo "---------------------------------";
@@ -182,7 +182,7 @@ phpMyAdmin () {
 			echo "Suppression de l'ancien dossier et lancement de la configuration.";
 			echo "--------------------------------";
 
-			sudo rm -rf phpMyAdmin-5.1.3-english
+				sudo rm -rf phpMyAdmin-5.1.3-english
 
 			echo "-----------------------------------------";
 			echo "Installation de phpMyAdmin 5.1.3 terminée";
