@@ -21,12 +21,12 @@ UpdateProject () {
 	php artisan key:generate
 	php artisan cache:clear
 	php artisan optimize
-	php artisan
 	php artisan optimize:clear
 	php artisan migrate:fresh
 	php artisan config:clear
 	sh database/imports/import.sh
-	
+	npm run tests
+
 	echo "Droits attribués à ubuntu sur l'arboresence"
 	sudo chown -R ubuntu:ubuntu /var/www/main
 	sudo chown -R www-data:www-data /var/www/main/public
@@ -70,6 +70,7 @@ InitProject () {
 	php artisan migrate:fresh
 	php artisan config:clear
 	sh database/imports/import.sh
+	npm run tests
 
 	echo "Droits attribués à ubuntu sur l'arboresence"
 	sudo chown -R ubuntu:ubuntu /var/www/main
