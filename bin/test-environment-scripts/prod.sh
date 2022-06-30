@@ -28,9 +28,10 @@ SendProject () {
 
   # Copy production .env file
   cp /tmp/main/.env.production /tmp/main/.env
+  php /tmp/main/artisan config:clear
   rm -rf /tmp/main/.env.production
 
-  php artisan key:generate
+  php /tmp/main/artisan key:generate
  
   echo "Droits distants sur /var/www/main attribués à ubuntu"
   ssh ubuntu@92.222.16.109 -p 62303 'sudo chown -R ubuntu:ubuntu /var/www/main'
